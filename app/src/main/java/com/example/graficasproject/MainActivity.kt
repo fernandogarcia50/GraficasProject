@@ -23,69 +23,35 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        setupPieChar()
+    }
+
+    private fun setupPieChar()
+    {
         pieChart = findViewById(R.id.cuadro)
+        val pieEntries = arrayListOf<PieEntry>()
+        pieEntries.add(PieEntry(30.0f))
+        pieEntries.add(PieEntry(40.0f))
+        pieEntries.add(PieEntry(35.0f))
 
-        initPieChart()
+        pieChart.animateXY(1000,1000)
+
+        val pieDataSet = PieDataSet(pieEntries, "Pie chart")
+        pieDataSet.setColors(
+            resources.getColor(R.color.design_default_color_primary_dark),
+            resources.getColor(R.color.design_default_color_secondary),
+            resources.getColor(R.color. design_default_color_error)
+        )
 
 
+        val pieData =  PieData(pieDataSet)
+
+        pieData.setDrawValues(true)
+
+
+        pieChart.data=pieData
     }
-    private fun initPieChart() {
-        pieChart.setUsePercentValues(true)
-        pieChart.description.text = ""
-        //hollow pie chart
-        pieChart.isDrawHoleEnabled = false
-        pieChart.setTouchEnabled(false)
-        pieChart.setDrawEntryLabels(false)
-        //adding padding
-        pieChart.setExtraOffsets(20f, 0f, 20f, 20f)
-        pieChart.setUsePercentValues(true)
-        pieChart.isRotationEnabled = false
-        pieChart.setDrawEntryLabels(false)
-        pieChart.legend.orientation = Legend.LegendOrientation.VERTICAL
-        pieChart.legend.isWordWrapEnabled = true
 
-    }
-
-    private fun setDataToPieChart() {
-        pieChart.setUsePercentValues(true)
-        val dataEntries = ArrayList<PieEntry>()
-        dataEntries.add(PieEntry(72f, "Android"))
-        dataEntries.add(PieEntry(26f, "Ios"))
-        dataEntries.add(PieEntry(2f, "Other"))
-
-        val colors: ArrayList<Int> = ArrayList()
-        colors.add(Color.parseColor("#4DD0E1"))
-        colors.add(Color.parseColor("#FFF176"))
-        colors.add(Color.parseColor("#FF8A65"))
-
-        val dataSet = PieDataSet(dataEntries, "")
-        val data = PieData(dataSet)
-
-        // In Percentage
-        data.setValueFormatter(PercentFormatter())
-        dataSet.sliceSpace = 3f
-        dataSet.colors = colors
-        pieChart.data = data
-        data.setValueTextSize(15f)
-        pieChart.setExtraOffsets(5f, 10f, 5f, 5f)
-        pieChart.animateY(1400, Easing.EaseInOutQuad)
-
-        //create hole in center
-        pieChart.holeRadius = 58f
-        pieChart.transparentCircleRadius = 61f
-        pieChart.isDrawHoleEnabled = true
-        pieChart.setHoleColor(Color.WHITE)
-
-
-        //add text in center
-        pieChart.setDrawCenterText(true);
-        pieChart.centerText = "Mobile OS Market share"
-
-
-
-        pieChart.invalidate()
-
-    }
 
 
 }
